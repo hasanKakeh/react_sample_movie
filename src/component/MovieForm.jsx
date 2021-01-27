@@ -6,6 +6,7 @@ import Joi from "joi-browser";
 import getMovie, { saveMovie } from "./../services/movieServices";
 import { getGenres } from "../services/generServices";
 import { genres } from "./../services/fakeGenerService";
+import Select from "./Select";
 //import { getGenres } from './../services/fakeGenerService';
 
 class MovieForm extends Form {
@@ -22,7 +23,7 @@ class MovieForm extends Form {
   };
   schema = {
     _id: Joi,
-    title: Joi,
+    title: Joi.string().min(5),
     genre: Joi,
     numberInStock: Joi.number().greater(0).less(100),
     dailyRentalRate: Joi.number().greater(-1).less(10),
@@ -54,6 +55,7 @@ class MovieForm extends Form {
   };
   doSubmit = async () => {
     const movie = this.state.data;
+
     await saveMovie(movie);
     //console.log(movie);
     this.props.history.push("/movies");
@@ -79,23 +81,13 @@ class MovieForm extends Form {
         <h1>Movies Form</h1>
         <form onSubmit={this.handleSubmit}>
           {this.renderInput("title", "Title")}
-          {
-            <select
-              value={this.state.data.genre._id}
-              className="custom-select"
-              id="genre"
-              onChange={this.handleSelect}
-            >
-              <option></option>
-              {this.state.genres.map((g) => {
-                return (
-                  <option key={g._id} value={g._id}>
-                    {g.name}
-                  </option>
-                );
-              })}
-            </select>
-          }
+          <Select
+            value={this.state.data.genre._id}
+            id="genre"
+            onChange={this.handleSelect}
+            data={this.state.genres}
+          />
+
           {this.renderInput("numberInStock", "Number In Stock")}
           {this.renderInput("dailyRentalRate", "Rate")}
           {this.renderButton("save")}

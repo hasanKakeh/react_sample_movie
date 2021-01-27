@@ -16,6 +16,8 @@ export function saveMovie(movie) {
   const genreId = movie.genre._id;
   delete body.genre;
   body.genreId = genreId;
+  body.numberInStock=parseInt(movie.numberInStock)
+  body.dailyRentalRate=parseInt(movie.dailyRentalRate)
 
   if (body._id) {
     delete body._id;

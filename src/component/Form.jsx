@@ -54,7 +54,7 @@ class Form extends Component {
       </button>
     );
   }
-  renderInput(name, label, type="text") {
+  renderInput(name, label, type = "text") {
     return (
       <Input
         type={type}
@@ -66,7 +66,6 @@ class Form extends Component {
       />
     );
   }
-  
 }
 
 export default Form;
